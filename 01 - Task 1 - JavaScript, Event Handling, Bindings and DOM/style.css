@@ -1,0 +1,22 @@
+table {
+    font-family: arial, sans-serif;
+    border: 2px solid gray;
+    padding: 2rem;
+    width: 100%;
+}
+
+td,
+th {
+    text-align: left;
+    padding: 8px;
+}
+
+th,
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+.form {
+    border: 2px solid gray;
+    padding: 2rem;
+}
