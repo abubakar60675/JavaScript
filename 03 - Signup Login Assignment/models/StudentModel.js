@@ -9,7 +9,7 @@ var studentSchema = mongoose.Schema({
     role: { type: String, default: "Normal" },
 });
 
-studentSchema.validateStudent = (data) => {
+studentSchema.statics.validateStudent = (data) => {
     let joischema = Joi.object({
         name: Joi.string().min(3).max(10),
         password: Joi.string().min(8).max(20),

@@ -8,9 +8,9 @@ var config = require("config");
 
 var indexRouter = require("./routes/index");
 var studentRouter = require("./routes/api/Student");
-// var validateStudent = require("./middlewares/validateStudent");
+var validateStudent = require("./middlewares/validateStudent");
 var teacherRouter = require("./routes/api/Teacher");
-// var validateTeacher = require("./middlewares/validateTeacher");
+var validateTeacher = require("./middlewares/validateTeacher");
 
 var app = express();
 
@@ -26,8 +26,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //routes
 app.use("/", indexRouter);
-app.use("/api/students", studentRouter);
-app.use("/api/teachers", teacherRouter);
+app.use("/api/students", validateStudent, studentRouter);
+app.use("/api/teachers", validateTeacher, teacherRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

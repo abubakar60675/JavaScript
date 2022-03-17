@@ -10,7 +10,7 @@ var teacherSchema = mongoose.Schema({
 
 });
 
-teacherSchema.validateTeacher = (data) => {
+teacherSchema.statics.validateTeacher = (data) => {
     let joischema = Joi.object({
         name: Joi.string().min(3).max(10),
         password: Joi.string().min(8).max(20),
