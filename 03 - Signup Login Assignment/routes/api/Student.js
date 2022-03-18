@@ -3,12 +3,15 @@ var router = express.Router();
 const StudentModel = require("../../models/StudentModel");
 const bcrypt = require("bcryptjs");
 const _ = require("lodash");
-
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 
 router.get("/signup", async function(req, res) {
     try {
-        let result = new StudentModel();
+        let result = await StudentModel.findOne({ email: req.body.email });
+        if (result) return res.status(400).send("Student with given Email already exists");
+        result = new StudentModel();
         result.name = req.body.name;
         result.email = req.body.email;
         let salt = await bcrypt.genSalt(10);
@@ -31,13 +34,12 @@ router.get("/signin", async(req, res) => {
         }
 
         let isValid = await bcrypt.compare(password, result.password);
-        if (!isValid) {
-            res.status(404).send("Invalid Password");
-        }
+        if (!isValid) return res.status(404).send("Invalid Password");
+        let token = jwt.sign({ _id: result._id, name: result.name }, config.get("jwtPrivateKey"));
+        res.send(token);
 
-        result = _.pick(result, ["name", "age", "email", "_id"]);
-
-        res.send(result);
+        // result = _.pick(result, ["name", "age", "email", "_id"]);
+        // res.send(result);
     } catch (err) {
         res.status(401).send(err.message);
     }
